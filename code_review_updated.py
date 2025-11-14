@@ -226,21 +226,21 @@ input_detector = RunnableLambda(detect_input_type)
 
 # ✅ Step 2: RunnableBranch for langchain_core 1.0.3
 def route_input(inputs):
-    """Manual branching for LangChain Core v1.0.3"""
-    input_type = detect_input_type(inputs)["input_type"]
-    if input_type == "file":
+    print("DEBUG INPUTS:", inputs)   # ← Add this
+    if "file_obj" in inputs:
         return file_flow.invoke(inputs)
-    elif input_type == "repo":
+    elif "input_path" in inputs:
         return repo_flow.invoke(inputs)
     else:
-        return fallback_chain.invoke(inputs)
+        raise ValueError("Invalid input. Provide file_obj or input_path.")
+
+
+
+
+
 branch_flow = RunnableLambda(route_input)
+main_flow = branch_flow
 
-
-main_flow = RunnableSequence(
-    input_detector,
-    branch_flow
-)
 
 
 
