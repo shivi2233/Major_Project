@@ -31,6 +31,7 @@ def detect_input_type(inputs):
     if inp.endswith((".py", ".js", ".cpp", ".java")) or inputs.get("file_obj"):
         return {"input_type": "file"}
     return {"input_type": "repo"}
+      
 
 
 def load_file(inputs):
@@ -201,3 +202,4 @@ else:
         st.markdown(result["final_summary"])
         st.markdown("### Dependency Graph")
         st.components.v1.html(open(result["graph_path"]).read(), height=450)
+
